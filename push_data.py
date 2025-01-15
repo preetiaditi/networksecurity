@@ -1,20 +1,3 @@
-'''
-from pymongo.mongo_client import MongoClient
-
-uri = "mongodb+srv://preetisahay5182:I9C00NZqINtcUZKG@cluster0.yanvl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-
-# Create a new client and connect to the server
-client = MongoClient(uri)
-
-# Send a ping to confirm a successful connection
-try:
-    client.admin.command('ping')
-    print("Pinged your deployment. You successfully connected to MongoDB!")
-except Exception as e:
-    print(e)
-
-    '''
-
 import os
 import sys
 import json
@@ -45,7 +28,7 @@ class NetworkDataExtract():
         try:
             data=pd.read_csv(file_path)
             data.reset_index(drop=True,inplace=True)
-            records=list(json.loads(data.T.to_json()).values())  #to_dict(orient='records')
+            records=list(json.loads(data.T.to_json()).values())
             return records
         except Exception as e:
             raise NetworkSecurityException(e,sys)
@@ -67,7 +50,7 @@ class NetworkDataExtract():
         
 if __name__=='__main__':
     FILE_PATH="Network_Data\phisingData.csv"
-    DATABASE="PREETIAI"
+    DATABASE="KRISHAI"
     Collection="NetworkData"
     networkobj=NetworkDataExtract()
     records=networkobj.csv_to_json_convertor(file_path=FILE_PATH)
@@ -75,6 +58,5 @@ if __name__=='__main__':
     no_of_records=networkobj.insert_data_mongodb(records,DATABASE,Collection)
     print(no_of_records)
         
-
 
 
